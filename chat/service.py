@@ -14,7 +14,8 @@ from dependencies.stdout import stdout
 from dependencies.user import user
 from entrypoints.once import once
 from entrypoints.stdin import stdin
-
+from entrypoints.shutdown import shutdown
+import sys
 
 class Message(Event):
     type = "message"
@@ -45,6 +46,12 @@ class Chat(object):
         self.stdout.write("Please enter your name:\n")
         self.prompt()
 
+    @shutdown
+    def stop(self):
+        self.send_message("Farewell friends... I must go")
+        self.stdout.write("Goodbye\n")
+        sys.exit(0)
+
     @stdin
     def handle_stdin(self, line):
         if not self.user.logged_in:
@@ -52,6 +59,8 @@ class Chat(object):
             self.stdout.write(
                 'Welcome to chat, {}!\n'.format(self.user.username))
             self.prompt()
+	elif 'quit' in line:
+            self.stop()
         else:
             self.send_message(line)
 

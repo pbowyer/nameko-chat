@@ -3,13 +3,13 @@ from nameko.dependencies import (
 from nameko.exceptions import ContainerBeingKilled
 
 
-class OnceProvider(EntrypointProvider):
+class ShutdownProvider(EntrypointProvider):
 
     def __init__(self, args, kwargs):
         self.args = args
         self.kwargs = kwargs
 
-    def start(self):
+    def stop(self):
 
 #        import pdb; pdb.set_trace()
         try:
@@ -19,7 +19,7 @@ class OnceProvider(EntrypointProvider):
 
 
 @entrypoint
-def once(*args, **kwargs):
+def shutdown(*args, **kwargs):
     """ Fire the decorated entrypoint once, immediately.
     """
-    return DependencyFactory(OnceProvider, args, kwargs)
+    return DependencyFactory(ShutdownProvider, args, kwargs)
