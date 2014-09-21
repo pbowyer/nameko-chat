@@ -10,8 +10,6 @@ class OnceProvider(EntrypointProvider):
         self.kwargs = kwargs
 
     def start(self):
-
-#        import pdb; pdb.set_trace()
         try:
             self.container.spawn_worker(self, self.args, self.kwargs)
         except ContainerBeingKilled:
